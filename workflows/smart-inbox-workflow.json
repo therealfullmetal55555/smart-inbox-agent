@@ -1,0 +1,233 @@
+{
+  "name": "Smart Inbox AI Router & Invoice Extraction",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "readStatus": "unread"
+        }
+      },
+      "name": "Gmail Inbound Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {
+          "temperature": 0.1
+        },
+        "prompt": "=Analyze incoming email:\nSender: {{ $json.from.value[0].address }}\nSubject: {{ $json.subject }}\nBody: {{ $json.text }}\nAttachments: {{ $json.attachments ? $json.attachments.length : 0 }}\n\nClassify intent: [sales_inbound, support_technical, billing_invoice, partnership, refund_dispute, spam_promotion]. Return structured JSON."
+      },
+      "name": "Groq LLM Intent Classifier",
+      "type": "n8n-nodes-base.groq",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.category }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "sales_inbound",
+              "output": 0
+            },
+            {
+              "value2": "billing_invoice",
+              "output": 1
+            },
+            {
+              "value2": "support_technical",
+              "output": 2
+            },
+            {
+              "value2": "refund_dispute",
+              "output": 3
+            },
+            {
+              "value2": "spam_promotion",
+              "output": 4
+            }
+          ]
+        }
+      },
+      "name": "Intent Switch Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "deal",
+        "operation": "create",
+        "dealName": "=[Inbound Lead] {{ $('Gmail Inbound Trigger').item.json.from.value[0].name }}",
+        "additionalFields": {
+          "amount": "={{ $json.detected_amount || '10000' }}"
+        }
+      },
+      "name": "Create HubSpot Deal",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [920, 140]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:8000/parse-invoice",
+        "method": "POST",
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "raw_text",
+              "value": "={{ $('Gmail Inbound Trigger').item.json.text }}"
+            }
+          ]
+        }
+      },
+      "name": "PDF Invoice Parser Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [920, 260]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetId": "1gXxK9_demo_finance_ledger",
+        "range": "Invoices!A:H",
+        "options": {}
+      },
+      "name": "Append to Google Sheets ERP",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [1140, 260]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "ticket",
+        "operation": "create",
+        "subject": "={{ $('Gmail Inbound Trigger').item.json.subject }}",
+        "description": "={{ $('Gmail Inbound Trigger').item.json.text }}",
+        "priority": "urgent"
+      },
+      "name": "Zendesk Escalation Ticket",
+      "type": "n8n-nodes-base.zendesk",
+      "typeVersion": 1,
+      "position": [920, 380]
+    },
+    {
+      "parameters": {
+        "channel": "#executive-escalations",
+        "text": "=🚨 *CRITICAL DISPUTE/REFUND RECEIVED*\nFrom: {{ $('Gmail Inbound Trigger').item.json.from.value[0].address }}\nSubject: {{ $('Gmail Inbound Trigger').item.json.subject }}\nAction Required: Immediate Executive Review"
+      },
+      "name": "Slack Critical Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [920, 500]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "to": "={{ $('Gmail Inbound Trigger').item.json.from.value[0].address }}",
+        "subject": "=Re: {{ $('Gmail Inbound Trigger').item.json.subject }}",
+        "message": "={{ $('Groq LLM Intent Classifier').item.json.draft_response }}",
+        "options": {
+          "isDraft": true
+        }
+      },
+      "name": "Create Gmail AI Draft",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [1140, 140]
+    }
+  ],
+  "connections": {
+    "Gmail Inbound Trigger": {
+      "main": [
+        [
+          {
+            "node": "Groq LLM Intent Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq LLM Intent Classifier": {
+      "main": [
+        [
+          {
+            "node": "Intent Switch Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intent Switch Router": {
+      "main": [
+        [
+          {
+            "node": "Create HubSpot Deal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PDF Invoice Parser Engine",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Zendesk Escalation Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack Critical Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create HubSpot Deal": {
+      "main": [
+        [
+          {
+            "node": "Create Gmail AI Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF Invoice Parser Engine": {
+      "main": [
+        [
+          {
+            "node": "Append to Google Sheets ERP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
