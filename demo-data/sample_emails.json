@@ -1,0 +1,74 @@
+[
+  {
+    "id": "EML-001",
+    "sender": "david.cohen@apexcapital.io",
+    "recipient": "sales@enterprise.ai",
+    "subject": "Enterprise Tier Pricing & 100-seat License Demo",
+    "body": "Hi team, We are looking to deploy your agent orchestration stack across our 100-seat engineering team. Could you share enterprise pricing and book a demo call with our VP of Infrastructure this Thursday?",
+    "received_at": "2026-09-28T09:15:00Z",
+    "has_attachments": false,
+    "attachment_filenames": [],
+    "expected_category": "sales_inbound",
+    "expected_urgency": "MEDIUM"
+  },
+  {
+    "id": "EML-002",
+    "sender": "billing@cloudstack-global.com",
+    "recipient": "finance@enterprise.ai",
+    "subject": "Tax Invoice INV-84920 for September 2026",
+    "body": "Please find attached your monthly subscription and infrastructure consumption invoice INV-84920. Total amount due: $3,450.00 by October 15, 2026.",
+    "received_at": "2026-09-28T09:45:00Z",
+    "has_attachments": true,
+    "attachment_filenames": ["invoice_INV-84920.pdf"],
+    "expected_category": "billing_invoice",
+    "expected_urgency": "MEDIUM"
+  },
+  {
+    "id": "EML-003",
+    "sender": "sarah.jenkins@fintechcore.co",
+    "recipient": "support@enterprise.ai",
+    "subject": "CRITICAL: 500 Internal Server Error in Production Webhook Pipeline",
+    "body": "Our production webhook listeners started throwing 500 internal errors 10 minutes ago. We are seeing critical outage across 4 client nodes. Traceback attached.",
+    "received_at": "2026-09-28T10:02:00Z",
+    "has_attachments": false,
+    "attachment_filenames": [],
+    "expected_category": "support_technical",
+    "expected_urgency": "HIGH"
+  },
+  {
+    "id": "EML-004",
+    "sender": "alex.morgan@growthseo-rankers.xyz",
+    "recipient": "hello@enterprise.ai",
+    "subject": "Increase your traffic by 500% with premium backlinks",
+    "body": "Hey, do you want to rank #1 on Google? We provide SEO services and high DA guest post backlinks. Reply YES for a free audit or unsubscribe here.",
+    "received_at": "2026-09-28T10:30:00Z",
+    "has_attachments": false,
+    "attachment_filenames": [],
+    "expected_category": "spam_promotion",
+    "expected_urgency": "LOW"
+  },
+  {
+    "id": "EML-005",
+    "sender": "marcus.vance@legaltech-partners.com",
+    "recipient": "partnerships@enterprise.ai",
+    "subject": "Co-marketing and joint venture integration proposal",
+    "body": "Hi there, We'd love to explore an official integration partner collaboration between our legal workflow suite and your LLM engine.",
+    "received_at": "2026-09-28T11:00:00Z",
+    "has_attachments": false,
+    "attachment_filenames": [],
+    "expected_category": "partnership",
+    "expected_urgency": "MEDIUM"
+  },
+  {
+    "id": "EML-006",
+    "sender": "unhappy.client@globalretail.org",
+    "recipient": "billing@enterprise.ai",
+    "subject": "Unauthorized charge - Cancel subscription immediately or we file chargeback and sue",
+    "body": "We were charged $1,200 without authorization. Cancel subscription immediately and issue a full refund or our lawyer will dispute the transaction today.",
+    "received_at": "2026-09-28T11:15:00Z",
+    "has_attachments": false,
+    "attachment_filenames": [],
+    "expected_category": "refund_dispute",
+    "expected_urgency": "CRITICAL"
+  }
+]

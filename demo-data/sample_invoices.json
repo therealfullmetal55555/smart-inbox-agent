@@ -1,0 +1,16 @@
+[
+  {
+    "id": "INV-DOC-001",
+    "raw_text": "ACME Cloud Services Inc.\nVendor: ACME Cloud Services Inc.\nInvoice #: ACME-2026-9912\nInvoice Date: 2026-09-15\nDue Date: 2026-10-15\nCurrency: USD\n\nDedicated GPU Cluster (H100)   2   1500.00   3000.00\nSSD Block Storage 10TB   1   450.00   450.00\n\nSubtotal: $3450.00\nTax: $0.00\nTotal Due: $3450.00",
+    "expected_vendor": "ACME Cloud Services Inc.",
+    "expected_total": 3450.00,
+    "expected_valid": true
+  },
+  {
+    "id": "INV-DOC-002",
+    "raw_text": "Supplier: Nordic Dev Labs Oy\nInvoice No: NDL-7741\nDate: 2026-09-20\nPayment Due: 2026-10-20\nCurrency: EUR\n\nSenior Architecture Consulting   40   120.00   4800.00\nSecurity Penetration Audit   1   2500.00   2500.00\n\nSubtotal: 7300.00\nVAT: 1460.00\nGrand Total: 8760.00",
+    "expected_vendor": "Nordic Dev Labs Oy",
+    "expected_total": 8760.00,
+    "expected_valid": true
+  }
+]
