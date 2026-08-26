@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0A0A0A; }
+      .grid-line { stroke: #181818; stroke-width: 1; }
+      .box { fill: #111111; stroke: #262626; stroke-width: 1.5; rx: 4px; }
+      .box-active { fill: #141414; stroke: #00FF66; stroke-width: 1.5; rx: 4px; }
+      .text-title { font-family: 'SF Mono', 'Courier New', monospace; font-size: 14px; fill: #FFFFFF; font-weight: bold; letter-spacing: 1px; }
+      .text-sub { font-family: 'SF Mono', 'Courier New', monospace; font-size: 11px; fill: #888888; }
+      .text-accent { font-family: 'SF Mono', 'Courier New', monospace; font-size: 11px; fill: #00FF66; }
+      .line { stroke: #333333; stroke-width: 1.5; stroke-dasharray: 4,4; }
+      .line-solid { stroke: #00FF66; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="480" class="bg" />
+  
+  <!-- Grid Lines -->
+  <line x1="0" y1="80" x2="1000" y2="80" class="grid-line" />
+  <line x1="0" y1="400" x2="1000" y2="400" class="grid-line" />
+  <line x1="200" y1="0" x2="200" y2="480" class="grid-line" />
+  <line x1="800" y1="0" x2="800" y2="480" class="grid-line" />
+
+  <!-- Header Branding -->
+  <text x="40" y="50" class="text-title">// SYSTEM_ARCHITECTURE :: SMART_INBOX_AGENT_V2</text>
+  <text x="750" y="50" class="text-accent">[STATUS: PRODUCTION_ACTIVE]</text>
+
+  <!-- INGESTION STAGE -->
+  <rect x="40" y="180" width="180" height="120" class="box" />
+  <text x="60" y="215" class="text-title">INGESTION</text>
+  <text x="60" y="240" class="text-sub">› Gmail / IMAP API</text>
+  <text x="60" y="260" class="text-sub">› Webhook Trigger</text>
+  <text x="60" y="280" class="text-sub">› Attachment Buffer</text>
+
+  <!-- CLASSIFICATION & ROUTING -->
+  <line x1="220" y1="240" x2="280" y2="240" class="line-solid" />
+  
+  <rect x="280" y="140" width="220" height="200" class="box-active" />
+  <text x="300" y="175" class="text-title">LLM INTENT ROUTER</text>
+  <text x="300" y="200" class="text-accent">› Zero-Shot Intent</text>
+  <text x="300" y="225" class="text-sub">› Urgency (P0-P3)</text>
+  <text x="300" y="250" class="text-sub">› Entity Extractor</text>
+  <text x="300" y="275" class="text-sub">› Confidence Gate (&gt;85%)</text>
+  <text x="300" y="300" class="text-accent">› HITL Escalation</text>
+
+  <!-- ROUTING CHANNELS -->
+  <line x1="500" y1="200" x2="570" y2="130" class="line" />
+  <line x1="500" y1="240" x2="570" y2="240" class="line-solid" />
+  <line x1="500" y1="280" x2="570" y2="350" class="line" />
+
+  <!-- SALES QUEUE -->
+  <rect x="570" y="90" width="180" height="80" class="box" />
+  <text x="590" y="120" class="text-title">SALES PIPELINE</text>
+  <text x="590" y="140" class="text-sub">› HubSpot Lead Gen</text>
+  <text x="590" y="155" class="text-sub">› AI Gmail Draft</text>
+
+  <!-- INVOICE ENGINE -->
+  <rect x="570" y="200" width="180" height="80" class="box-active" />
+  <text x="590" y="230" class="text-title">INVOICE PARSER</text>
+  <text x="590" y="250" class="text-accent">› Math Integrity Engine</text>
+  <text x="590" y="265" class="text-sub">› Tabular Line Items</text>
+
+  <!-- SUPPORT / DISPUTE -->
+  <rect x="570" y="310" width="180" height="80" class="box" />
+  <text x="590" y="340" class="text-title">ESCALATION</text>
+  <text x="590" y="360" class="text-sub">› Zendesk Tier 1</text>
+  <text x="590" y="375" class="text-sub">› P0 Slack/SMS Alert</text>
+
+  <!-- DOWNSTREAM STORAGE -->
+  <line x1="750" y1="240" x2="800" y2="240" class="line-solid" />
+
+  <rect x="800" y="180" width="160" height="120" class="box" />
+  <text x="820" y="215" class="text-title">ERP &amp; LEDGER</text>
+  <text x="820" y="240" class="text-sub">› Google Sheets</text>
+  <text x="820" y="260" class="text-sub">› QuickBooks / ERP</text>
+  <text x="820" y="280" class="text-sub">› Audit Trail Logs</text>
+
+  <!-- FOOTER -->
+  <text x="40" y="435" class="text-sub">LATENCY: ~0.3ms LOCAL / ~320ms LLM  |  ACCURACY: 100% INVOICE INTEGRITY  |  AUTONOMOUS INBOX V2</text>
+</svg>
